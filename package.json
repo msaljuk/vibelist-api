@@ -1,0 +1,34 @@
+{
+  "name": "vibelist-api",
+  "version": "1.0.0",
+  "description": "Backend API for Vibelist",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msaljuk/vibelist-api.git"
+  },
+  "keywords": [
+    "Backend",
+    "API",
+    "MongoDB",
+    "Express",
+    "NodeJS"
+  ],
+  "author": "Muhammad Saljuk Gondal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/msaljuk/vibelist-api/issues"
+  },
+  "homepage": "https://github.com/msaljuk/vibelist-api#readme"
+}
