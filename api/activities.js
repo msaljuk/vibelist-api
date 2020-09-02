@@ -17,7 +17,7 @@ router.post("/", (req, res) => {
   if (!authenticationHelpers.checkIfUnauthorizedRequest(req, res)) {
     const { activityName, activityType } = req.body;
     const newActivity = new Activity({
-      userID: userID,
+      userID: req.session.userID,
       activityName: activityName,
       activityType: activityType,
       pings: 0,
