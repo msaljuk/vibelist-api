@@ -3,11 +3,11 @@ const router = express.Router();
 
 const authenticationHelpers = require("./helpers/authenticationHelpers");
 
-const User = require("../models/user");
+const Activity = require("../models/activity");
 
 router.get("/", (req, res) => {
   if (!authenticationHelpers.checkIfUnauthorizedRequest(req, res)) {
-    User.find()
+    Activity.find()
       .then((users) => res.json(users))
       .catch((err) => console.log(err));
   }
@@ -15,22 +15,25 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   if (!authenticationHelpers.checkIfUnauthorizedRequest(req, res)) {
-    const { name, email } = req.body;
-    const newUser = new User({
-      name: name,
-      email: email,
+    const { activityName, activityType } = req.body;
+    const newActivity = new Activity({
+      userID: userID,
+      activityName: activityName,
+      activityType: activityType,
+      pings: 0,
+      createdAt: new Date(),
     });
-    newUser
+    newActivity
       .save()
       .then(() =>
         res.json({
-          message: "Created account successfully",
+          message: "Created activity successfully",
         })
       )
       .catch((err) =>
         res.status(400).json({
           error: err,
-          message: "Error creating account",
+          message: "Error creating activity",
         })
       );
   }
