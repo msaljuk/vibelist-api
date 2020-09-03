@@ -10,10 +10,13 @@
     "express-session": "^1.17.1",
     "mongoose": "^5.10.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "prettier": "2.1.1"
+  },
   "scripts": {
     "test": "node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "format-all": "npx prettier --write ."
   },
   "repository": {
     "type": "git",
