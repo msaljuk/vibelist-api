@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const activityTypes = ["PLAY", "WATCH", "LISTEN"];
+const activityTypes = ["PLAY", "WATCH", "LISTEN", "EAT", "MAKE", "READ", "VISIT", "MEET", "STUDY", "WRITE", "DRAW", "BAKE", "EXERCISE"];
 
 const activitySchema = new Schema({
   userID: Schema.Types.ObjectId,
