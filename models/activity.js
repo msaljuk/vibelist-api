@@ -17,6 +17,10 @@ const activityTypes = [
   "WRITE",
 ];
 
+const getActivityTypes = () => {
+  return activityTypes;
+};
+
 const activitySchema = new Schema({
   userID: Schema.Types.ObjectId,
   activityType: {
@@ -31,3 +35,4 @@ const activitySchema = new Schema({
 });
 
 module.exports = mongoose.model("Activity", activitySchema, "activities");
+module.exports.getActivityTypes = getActivityTypes;

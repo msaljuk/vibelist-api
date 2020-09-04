@@ -20,18 +20,26 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 app.use(
-  authenticateJWT.unless({ path: ["/login", "/api/v1/authenticate/login"] })
+  authenticateJWT.unless({
+    path: ["/api/v1/error/401", "/api/v1/authenticate/login"],
+  })
 );
 
 // APIs
+const activities = require("./api/activities");
+app.use("/api/v1/activities", activities);
+
 const authenticate = require("./api/authenticate");
 app.use("/api/v1/authenticate", authenticate);
 
+const error = require("./api/error");
+app.use("/api/v1/error", error);
+
+const friends = require("./api/friends");
+app.use("/api/v1/friends", friends);
+
 const users = require("./api/users");
 app.use("/api/v1/users", users);
-
-const activities = require("./api/activities");
-app.use("/api/v1/activities", activities);
 
 // Setting Port and Listening
 const port = process.env.PORT || 5000;

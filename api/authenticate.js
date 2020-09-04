@@ -4,6 +4,7 @@ const router = express.Router();
 
 const User = require("../models/user");
 
+// login user
 router.get("/login", (req, res) => {
   const email = req.query.email;
 

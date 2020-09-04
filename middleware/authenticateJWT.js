@@ -20,7 +20,7 @@ passport.use(
 
 const authenticateJWT = passport.authenticate("jwt", {
   session: false,
-  failureRedirect: "/login",
+  failureRedirect: "/api/v1/error/401",
 });
 authenticateJWT.unless = unless;
 
