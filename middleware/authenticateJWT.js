@@ -2,13 +2,11 @@ const unless = require("express-unless");
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 
-const secret = "endur3AndSurviv3JWT2020";
-
 passport.use(
   new passportJWT.Strategy(
     {
       jwtFromRequest: (req) => req.cookies.jwt,
-      secretOrKey: secret,
+      secretOrKey: process.env.JWT_SECRET,
     },
     (jwtPayload, done) => {
       if (Date.now() > jwtPayload.expires) {
