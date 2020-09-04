@@ -1,8 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const path = require("path");
-const session = require("express-session");
+
+const authenticateJWT = require("./middleware/authenticateJWT");
+
+// load env variables
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 const app = express();
 
@@ -11,13 +17,10 @@ require("./database");
 
 // Express middleware
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(cors());
 app.use(
-  session({
-    secret: "endur3AndSurviv32020",
-    resave: false,
-    saveUninitialized: false,
-  })
+  authenticateJWT.unless({ path: ["/login", "/api/v1/authenticate/login"] })
 );
 
 // APIs
