@@ -2,31 +2,41 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 
-const User = require("../models/user");
+const authenticateUserLogin = require("../middleware/authenticateUserLogin");
 
 // login user
-router.get("/login", (req, res) => {
-  const email = req.query.email;
+router.post("/login", authenticateUserLogin, (req, res) => {
+  const user = req.user;
 
-  User.findOne({ email: email }, (err, foundUser) => {
-    if (err) res.status(401).send("User not found");
-    else {
-      const payload = {
-        userID: foundUser._id,
-        expires: Date.now() + parseInt(process.env.JWT_TIMEOUT),
-      };
-      const accessToken = jwt.sign(
-        JSON.stringify(payload),
-        process.env.JWT_SECRET
-      );
+  // set jwt cookie for future request authentication
+  const payload = {
+    userID: user._id,
+    expires: Date.now() + parseInt(process.env.JWT_TIMEOUT),
+  };
+  const accessToken = jwt.sign(JSON.stringify(payload), process.env.JWT_SECRET);
 
-      res.cookie("jwt", accessToken);
-      res.status(200).json({
-        message: "User Successfully Logged in",
-        payload: payload,
-      });
-    }
+  res.cookie("jwt", accessToken);
+  res.status(200).json({
+    message: "User Successfully Logged in",
+    payload: payload,
   });
+});
+
+// logout user
+router.get("/logout", (req, res) => {
+  try {
+    res.clearCookie("jwt");
+
+    res.status(200).json({
+      message: "User Successfully Logged Out",
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      message: "Internal Server Error.",
+    });
+  }
 });
 
 module.exports = router;

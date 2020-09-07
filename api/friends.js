@@ -8,7 +8,12 @@ const User = require("../models/user");
 router.get("/:userID", (req, res) => {
   const userID = req.params.userID;
 
-  User.findOne({ _id: userID }, "friends")
+  User.findOne(
+    {
+      _id: userID,
+    },
+    "friends"
+  )
     .then((user) => {
       const friendIDs = user.friends;
       const friends = [];
@@ -16,7 +21,12 @@ router.get("/:userID", (req, res) => {
       async.each(
         friendIDs,
         (friendID, callback) => {
-          User.find({ _id: friendID }, "name email")
+          User.find(
+            {
+              _id: friendID,
+            },
+            "name email"
+          )
             .then((friend) => {
               if (friend) {
                 friends.push(friend);
@@ -41,8 +51,14 @@ router.post("/sendRequest", (req, res) => {
   const friendID = req.body.friendID;
 
   User.findOneAndUpdate(
-    { _id: friendID },
-    { $addToSet: { friendRequests: userID } }
+    {
+      _id: friendID,
+    },
+    {
+      $addToSet: {
+        friendRequests: userID,
+      },
+    }
   )
     .then(() =>
       res.status(200).json({
@@ -63,8 +79,14 @@ router.post("/cancelRequest", (req, res) => {
   const friendID = req.body.friendID;
 
   User.findOneAndUpdate(
-    { _id: friendID },
-    { $pullAll: { friendRequests: [userID] } }
+    {
+      _id: friendID,
+    },
+    {
+      $pullAll: {
+        friendRequests: [userID],
+      },
+    }
   )
     .then(() =>
       res.status(200).json({
@@ -87,10 +109,16 @@ router.post("/acceptRequest", (req, res) => {
   const mutualAddition = async () => {
     try {
       await User.findOneAndUpdate(
-        { _id: userID },
         {
-          $addToSet: { friends: friendID },
-          $pullAll: { friendRequests: [userID] },
+          _id: userID,
+        },
+        {
+          $addToSet: {
+            friends: friendID,
+          },
+          $pullAll: {
+            friendRequests: [userID],
+          },
         }
       )
         .then(() =>
@@ -108,9 +136,13 @@ router.post("/acceptRequest", (req, res) => {
         });
 
       await User.findOneAndUpdate(
-        { _id: friendID },
         {
-          $addToSet: { friends: userID },
+          _id: friendID,
+        },
+        {
+          $addToSet: {
+            friends: userID,
+          },
         }
       )
         .then(() => {
@@ -144,9 +176,13 @@ router.post("/deleteFriend", (req, res) => {
   const mutualDeletion = async () => {
     try {
       await User.findOneAndUpdate(
-        { _id: userID },
         {
-          $pullAll: { friends: [friendID] },
+          _id: userID,
+        },
+        {
+          $pullAll: {
+            friends: [friendID],
+          },
         }
       )
         .then(() =>
@@ -164,9 +200,13 @@ router.post("/deleteFriend", (req, res) => {
         });
 
       await User.findOneAndUpdate(
-        { _id: friendID },
         {
-          $pullAll: { friends: [userID] },
+          _id: friendID,
+        },
+        {
+          $pullAll: {
+            friends: [userID],
+          },
         }
       )
         .then(() => {

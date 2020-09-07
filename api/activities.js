@@ -33,7 +33,9 @@ router.get("/:userID", (req, res) => {
         });
       });
   } else {
-    Activity.find({ userID: userID })
+    Activity.find({
+      userID: userID,
+    })
       .then((activities) => res.json(activities))
       .catch((err) => {
         console.log(err);
