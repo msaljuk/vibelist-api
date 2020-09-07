@@ -3,7 +3,6 @@ const passport = require("passport");
 const passportLocal = require("passport-local");
 
 const User = require("../models/user");
-const user = require("../models/user");
 
 const isPasswordValid = async (enteredPassword, user) => {
   const match = await bcrypt.compare(enteredPassword, user.password);
